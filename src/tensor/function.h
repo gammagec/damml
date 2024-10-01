@@ -124,10 +124,10 @@ public:
 
 template <typename T>
 class AddBackward final : public ContextGradFn<AddBackward<T>, T> {
-  using ContextGradFn = ContextGradFn<AddBackward<T>, T>;
+  using ContextGradFn<AddBackward, T>::context_;
 public:
-  AddBackward(const Tensor<T>& a, const Tensor<T>& b) : ContextGradFn(BackwardContext<T>{}) {
-    ContextGradFn::context_.set_inputs(a, b);
+  AddBackward(const Tensor<T>& a, const Tensor<T>& b) : ContextGradFn<AddBackward, T>(BackwardContext<T>{}) {
+    context_.set_inputs(a, b);
   }
 
   static auto backward(BackwardContext<T>& context, const Tensor<T>& output_grad) {
@@ -145,10 +145,10 @@ public:
 
 template <typename T>
 class SubBackward final : public ContextGradFn<SubBackward<T>, T> {
-  using ContextGradFn = ContextGradFn<SubBackward<T>, T>;
+  using ContextGradFn<SubBackward, T>::context_;
 public:
-  SubBackward(const Tensor<T>& a, const Tensor<T>& b) : ContextGradFn(BackwardContext<T>{}) {
-    ContextGradFn::context_.set_inputs(a, b);
+  SubBackward(const Tensor<T>& a, const Tensor<T>& b) : ContextGradFn<SubBackward, T>(BackwardContext<T>{}) {
+    context_.set_inputs(a, b);
   }
 
   static auto backward(BackwardContext<T>& context, const Tensor<T>& output_grad) {
@@ -166,12 +166,11 @@ public:
 
 template <typename T>
 class DivBackward final : public ContextGradFn<DivBackward<T>, T> {
-  using ContextGradFn = ContextGradFn<DivBackward<T>, T>;
+  using ContextGradFn<DivBackward, T>::context_;
 public:
-  DivBackward(const Tensor<T>& a, const Tensor<T>& b) : ContextGradFn(BackwardContext<T>{}) {
-    ContextGradFn::context_.set_inputs(a, b);
-    ContextGradFn::context_.save_for_backward(a);
-    ContextGradFn::context_.save_for_backward(b);
+  DivBackward(const Tensor<T>& a, const Tensor<T>& b) : ContextGradFn<DivBackward, T>(BackwardContext<T>{}) {
+    context_.set_inputs(a, b);
+    context_.save_for_backward(a, b);
   }
 
   static auto backward(BackwardContext<T>& context, const Tensor<T>& output_grad) {
@@ -193,11 +192,11 @@ public:
 
 template <typename T>
 class ExpBackward final : public ContextGradFn<ExpBackward<T>, T> {
-  using ContextGradFn = ContextGradFn<ExpBackward<T>, T>;
+  using ContextGradFn<ExpBackward, T>::context_;
 public:
-  ExpBackward(const Tensor<T>& x, const Tensor<T>& out) : ContextGradFn(BackwardContext<T>{}) {
-    ContextGradFn::context_.set_inputs(x);
-    ContextGradFn::context_.save_for_backward(out);
+  ExpBackward(const Tensor<T>& x, const Tensor<T>& out) : ContextGradFn<ExpBackward, T>(BackwardContext<T>{}) {
+    context_.set_inputs(x);
+    context_.save_for_backward(out);
   }
 
   static auto backward(BackwardContext<T>& context, const Tensor<T>& output_grad) {
@@ -212,11 +211,11 @@ public:
 
 template <typename T>
 class TanhBackward final : public ContextGradFn<TanhBackward<T>, T> {
-  using ContextGradFn = ContextGradFn<TanhBackward<T>, T>;
+  using ContextGradFn<TanhBackward, T>::context_;
 public:
-  TanhBackward(const Tensor<T>& x, const Tensor<T>& out) : ContextGradFn(BackwardContext<T>{}) {
-    ContextGradFn::context_.set_inputs(x);
-    ContextGradFn::context_.save_for_backward(out);
+  TanhBackward(const Tensor<T>& x, const Tensor<T>& out) : ContextGradFn<TanhBackward, T>(BackwardContext<T>{}) {
+    context_.set_inputs(x);
+    context_.save_for_backward(out);
   }
 
   static auto backward(BackwardContext<T>& context, const Tensor<T>& output_grad) {
@@ -231,11 +230,11 @@ public:
 
 template <typename T>
 class LogBackward final : public ContextGradFn<LogBackward<T>, T> {
-  using ContextGradFn = ContextGradFn<LogBackward<T>, T>;
+  using ContextGradFn<LogBackward, T>::context_;
 public:
-  explicit LogBackward(const Tensor<T>& x) : ContextGradFn(BackwardContext<T>{}) {
-    ContextGradFn::context_.set_inputs(x);
-    ContextGradFn::context_.save_for_backward(x);
+  explicit LogBackward(const Tensor<T>& x) : ContextGradFn<LogBackward, T>(BackwardContext<T>{}) {
+    context_.set_inputs(x);
+    context_.save_for_backward(x);
   }
 
   static auto backward(BackwardContext<T>& context, const Tensor<T>& output_grad) {
@@ -250,11 +249,11 @@ public:
 
 template <typename T>
 class MeanBackward final : public ContextGradFn<MeanBackward<T>, T> {
-  using ContextGradFn = ContextGradFn<MeanBackward<T>, T>;
+  using ContextGradFn<MeanBackward, T>::context_;
 public:
-  explicit MeanBackward(const Tensor<T>& x) : ContextGradFn(BackwardContext<T>{}) {
-    ContextGradFn::context_.set_inputs(x);
-    ContextGradFn::context_.save_for_backward(x);
+  explicit MeanBackward(const Tensor<T>& x) : ContextGradFn<MeanBackward, T>(BackwardContext<T>{}) {
+    context_.set_inputs(x);
+    context_.save_for_backward(x);
   }
 
   static auto backward(BackwardContext<T>& context, const Tensor<T>& output_grad) {
@@ -271,12 +270,11 @@ public:
 
 template <typename T>
 class MulBackward final : public ContextGradFn<MulBackward<T>, T> {
-  using ContextGradFn = ContextGradFn<MulBackward<T>, T>;
+  using ContextGradFn<MulBackward, T>::context_;
 public:
-  MulBackward(const Tensor<T>& input, const Tensor<T>& other) : ContextGradFn(BackwardContext<T>{}) {
-    ContextGradFn::context_.set_inputs(input, other);
-    ContextGradFn::context_.save_for_backward(input);
-    ContextGradFn::context_.save_for_backward(other);
+  MulBackward(const Tensor<T>& input, const Tensor<T>& other) : ContextGradFn<MulBackward, T>(BackwardContext<T>{}) {
+    context_.set_inputs(input, other);
+    context_.save_for_backward(input, other);
   }
 
   static auto backward(BackwardContext<T>& context, const Tensor<T>& output_grad) {
@@ -296,10 +294,10 @@ public:
 
 template <typename T>
 class NegBackward final : public ContextGradFn<NegBackward<T>, T> {
-  using ContextGradFn = ContextGradFn<NegBackward<T>, T>;
+  using ContextGradFn<NegBackward, T>::context_;
 public:
-  explicit NegBackward(const Tensor<T>& x) : ContextGradFn(BackwardContext<T>{}) {
-    ContextGradFn::context_.set_inputs(x);
+  explicit NegBackward(const Tensor<T>& x) : ContextGradFn<NegBackward, T>(BackwardContext<T>{}) {
+    context_.set_inputs(x);
   }
 
   static auto backward(BackwardContext<T>& context, const Tensor<T>& output_grad) {
@@ -313,12 +311,12 @@ public:
 
 template <typename T>
 class PowBackward final : public ContextGradFn<PowBackward<T>, T> {
-  using ContextGradFn = ContextGradFn<PowBackward<T>, T>;
+  using ContextGradFn<PowBackward, T>::context_;
 public:
-  explicit PowBackward(const Tensor<T>& x, T scalar) : ContextGradFn(BackwardContext<T>{}) {
+  explicit PowBackward(const Tensor<T>& x, T scalar) : ContextGradFn<PowBackward, T>(BackwardContext<T>{}) {
     Tensor y(x.context(), scalar);
-    ContextGradFn::context_.set_inputs(x, y);
-    ContextGradFn::context_.save_for_backward(x, y);
+    context_.set_inputs(x, y);
+    context_.save_for_backward(x, y);
   }
 
   static auto backward(BackwardContext<T>& context, const Tensor<T>& output_grad) {
